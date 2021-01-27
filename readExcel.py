@@ -1,7 +1,4 @@
-
 import jieba.analyse
-
-import jieba.posseg as psg
 
 jieba.suggest_freq('养老服务', True)
 jieba.suggest_freq('养老机构', True)
@@ -14,15 +11,14 @@ jieba.suggest_freq('养老保险', True)
 jieba.suggest_freq('社会养老', True)
 
 import xlwt
-excel = xlwt.Workbook()
-new_excel = excel.add_sheet("sheet2",cell_overwrite_ok=True)
-
+wbk = xlwt.Workbook()
 import xlrd
 ExcelFile = xlrd.open_workbook('/Users/Oraida/Desktop/yanglao.xls')
 read_excel = ExcelFile.sheet_by_name('整理324')
-
 total = 0
-for i in range(2):
+sheets = []
+for i in range(324):
+
     rows = read_excel.row_values(i)
 
     date = rows[0]
@@ -34,20 +30,13 @@ for i in range(2):
     i_3 = total + 3
     i_4 = total + 4
 
-    new_excel.write(0, i_0, date)
-    new_excel.write(0, i_1, "权重")
-    new_excel.write(0, i_2, "字段")
-    new_excel.write(0, i_3, "次数")
-    new_excel.write(0, i_4, "")
+    sheets.append(wbk.add_sheet(date + "(" + str(i) + ")", cell_overwrite_ok=True))
 
-# print("=================")
-#
-# cnt_textRank = 1
-# for x, w in jieba.analyse.textrank(text, topK=50, withWeight=True):
-#     new_excel.write(cnt_textRank, 2, x)
-#     new_excel.write(cnt_textRank, 3, w)
-#     print('%s  %s' % (x, w))
-#     cnt_textRank = cnt_textRank + 1
+    sheets[i].write(0, i_0, "TF-IDF")
+    sheets[i].write(0, i_1, "权重")
+    sheets[i].write(0, i_2, "字段")
+    sheets[i].write(0, i_3, "次数")
+    sheets[i].write(0, i_4, "")
 
     words = jieba.lcut(text)
     counts = {}
@@ -58,28 +47,20 @@ for i in range(2):
             counts[word] = counts.get(word, 0) + 1
     items = list(counts.items())
     items.sort(key=lambda x:x[1], reverse=True)
-
+    length = len(items)
     cnt_frequency = 1
-    for i in range(50):
-        word, count = items[i]
+    for j in range(length):
+        word, count = items[j]
 
-        new_excel.write(cnt_frequency, i_2, word)
-        new_excel.write(cnt_frequency, i_3, count)
-        new_excel.write(cnt_frequency, i_4, '')
+        sheets[i].write(cnt_frequency, i_2, word)
+        sheets[i].write(cnt_frequency, i_3, count)
+        sheets[i].write(cnt_frequency, i_4, '')
         print(word, count)
         cnt_frequency = cnt_frequency + 1
-
-    print("=================")
-
     cnt = 1
-    for x, w in jieba.analyse.extract_tags(text, topK=50, withWeight=True):
-        new_excel.write(cnt, i_0, x)
-        new_excel.write(cnt, i_1, w)
+    for x, w in jieba.analyse.extract_tags(text, topK=length, withWeight=True):
+        sheets[i].write(cnt, i_0, x)
+        sheets[i].write(cnt, i_1, w)
         print('%s  %s' % (x, w))
         cnt = cnt + 1
-
-# print('分词及词性：')
-# result = psg.lcut(text)
-# print([(x.word, x.flag) for x in result])
-    total = total + 5
-    excel.save('/Users/Oraida/Desktop/first11.xls')
+wbk.save('/Users/Oraida/Desktop/first26.xls')
