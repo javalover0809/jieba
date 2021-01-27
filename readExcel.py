@@ -51,7 +51,6 @@ for i in range(324):
     cnt_frequency = 1
     for j in range(length):
         word, count = items[j]
-
         sheets[i].write(cnt_frequency, i_2, word)
         sheets[i].write(cnt_frequency, i_3, count)
         sheets[i].write(cnt_frequency, i_4, '')
