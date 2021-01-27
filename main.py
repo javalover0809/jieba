@@ -7,10 +7,10 @@ for x, w in jieba.analyse.extract_tags(s, withWeight=True):
     print('%s  %s' % (x,w))
 
 
-# print('分词及词性：')
-# result=psg.cut(s)
-# print(result)
-# print([(x.word,x.flag) for x in result])
+print('分词及词性：')
+result=psg.cut(s)
+print(result)
+print([(x.word,x.flag) for x in result])
 
 # s = '我想大口吃肉大碗喝酒！！！'
 # cut=jieba.cut(s)
