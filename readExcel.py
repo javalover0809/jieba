@@ -17,6 +17,7 @@ ExcelFile = xlrd.open_workbook('/Users/Oraida/Desktop/yanglao.xls')
 read_excel = ExcelFile.sheet_by_name('整理324')
 total = 0
 sheets = []
+
 for i in range(324):
 
     rows = read_excel.row_values(i)
