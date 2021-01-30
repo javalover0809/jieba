@@ -21,6 +21,7 @@ read_excel = ExcelFile.sheet_by_name('整理324')
 
 sheets = []
 for year in range(2003, 2021):
+    print("年份就是:" + str(year))
     text = ''
     for i in range(324):
 
@@ -70,4 +71,4 @@ for year in range(2003, 2021):
         cnt_frequency = cnt_frequency + 1
 
     print("")
-    wbk.save('/Users/Oraida/Desktop/first34.xls')
+    wbk.save('/Users/Oraida/Desktop/first37.xls')
